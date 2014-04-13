@@ -3,6 +3,8 @@ Ractive l20n
 
 Experiment in localizing compiled Ractive templates.
 
+http://martypdx.github.io/ractive-l20n/
+
 ```js
 var ractive = require('ractive'),
 	template = '<p><span>hello</span> {{world}}</p>',

@@ -1,0 +1,36 @@
+{
+  "name": "ractive-l20n",
+  "version": "0.0.1",
+  "description": "L20n for Ractive templates",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "ractive",
+    "ractive.js",
+    "l20n",
+    "localization",
+    "templates"
+  ],
+  "author": "Marty Nelson",
+  "license": "MIT",
+  "dependencies": {
+    "ractive": "~0.4.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.18.2",
+    "chai": "~1.9.1",
+    "browserify": "~3.41.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/martypdx/ractive-l20n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/martypdx/ractive-l20n/issues"
+  }
+}

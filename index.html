@@ -1,0 +1,95 @@
+<html>
+<head>
+<script src='http://cdn.ractivejs.org/edge/ractive.js'></script>
+<script src='ractive-l20n.js'></script>
+<style>
+	textarea { 
+		color: grey;
+		font-family: monospace;
+		font-size: 12pt;
+		height: 250px;
+		width: 40%;
+		clear: both;
+	}
+	#dictionary {
+		width: 80%;
+	}
+	#translate { 
+		background: cornsilk;
+		padding: 10px;
+		width: 95%;
+	}
+	#translate span.path {
+		font-family: monospace;
+		font-size: 12pt;
+		width: 20px;
+		text-align: right;
+	}
+	#translate .words {
+		display: inline-block;
+		font-family: monospace;
+		font-size: 12pt;
+		margin: 5px;
+		border: 5px solid whitesmoke;
+	}
+
+</style>
+</head>
+<body>
+<script id='main' type='text/ractive'>
+	<h1>Ractive l20n</h1>
+	<div>
+	<h2>input</h2>
+	<textarea id='in' value='{{template}}'/>
+	<textarea value='{{ parsed ? JSON.stringify(parsed,true,2) : ''}}'/>
+	</div>
+	<div id='translate'>
+		<h2>translatations</h2>
+		<textarea id="dictionary" value='{{ dictionary }}'/>
+		<!--
+		{{#dictionary:path}}
+			<div>
+			<span class='path'>{{path}}:"{{dictionary[this]}}"</span>
+			<input class='words' value="{{.}}"/>
+			</div>
+		{{/}}
+		-->
+	</div>
+	<h2>output</h2>
+	<textarea id='out'>{{ translated ? JSON.stringify(translated,true,2) : '' }}</textarea>
+</script>
+
+<script>
+var Ractive = require('ractive'),
+	l20n = require('l20n')
+
+var r = new Ractive({
+	el: document.body,
+	template: '#main',
+	data: {
+		template: '<h1>My Template of Wonder</h1>' + 
+			'<p>Hello to everyone, here\'s the todo:</p>' + 
+			'<ul>{{#items}}<li>{{.title}} by {{.date}}</li>{{/}}</ul>'
+	}
+})
+r.observe('template', function(n){
+	try {
+		var parsed = Ractive.parse(n),
+			dictionary = l20n.index(parsed)
+		r.set({
+			parsed: parsed,
+			dictionary: JSON.stringify(dictionary, true, 2) //dictionary
+		})
+		console.log('dictionary', r.data.dictionary)
+	}
+	catch(e){
+		console.log('parse error', e)
+	}
+})
+
+r.observe('dictionary.*', function(n){
+	var translatations = JSON.parse(r.get('dictionary'))
+	r.set('translated', l20n.translate(r.get('parsed'), translatations) )
+})
+</script>
+</body>

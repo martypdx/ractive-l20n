@@ -32,12 +32,58 @@
 		margin: 5px;
 		border: 5px solid whitesmoke;
 	}
+	a.forkme {
+		position: fixed;
+		right: 3.5em;
+		top: 3.5em;
+		background-color: #888;
+		padding: 0.2em 0;
+		width: 15em;
+		text-align: center;
+		color: white;
+		-webkit-transform: translate(50%,-50%) rotate(45deg);
+		-moz-transform: translate(50%,-50%) rotate(45deg);
+		-ms-transform: translate(50%,-50%) rotate(45deg);
+		-o-transform: translate(50%,-50%) rotate(45deg);
+		transform: translate(50%,-50%) rotate(45deg);
+		font-family: Voltaire;
+		font-weight: bold;
+		box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+		opacity: 0;
+		display: none;
+		z-index: 2;
+
+		-webkit-transition: opacity 0.5s;
+		-moz-transition: opacity 0.5s;
+		-ms-transition: opacity 0.5s;
+		-o-transition: opacity 0.5s;
+		transition: opacity 0.5s;
+	}
+
+	.transforms-enabled a.forkme {
+		display: block;
+	}
+
+	.forkme:before, .forkme:after {
+		content: '';
+		display: block;
+		width: 100%;
+		border-top: 1px dashed white;
+	}
+
+	@media screen and (min-width: 100px) {
+		a.forkme {
+			opacity: 1;
+		}
+	}
 
 </style>
 </head>
 <body>
+<a class='forkme' href='https://github.com/martypdx/ractive-l20n'>Fork me on GitHub</a>
+<h1>Ractive l20n</h1>
+<div id='container'>Loading...</div>
 <script id='main' type='text/ractive'>
-	<h1>Ractive l20n</h1>
 	<div>
 	<h2>input</h2>
 	<textarea id='in' value='{{template}}'/>
@@ -64,7 +110,7 @@ var Ractive = require('ractive'),
 	l20n = require('l20n')
 
 var r = new Ractive({
-	el: document.body,
+	el: '#container',
 	template: '#main',
 	data: {
 		template: '<h1>My Template of Wonder</h1>' + 
@@ -91,5 +137,21 @@ r.observe('dictionary.*', function(n){
 	var translatations = JSON.parse(r.get('dictionary'))
 	r.set('translated', l20n.translate(r.get('parsed'), translatations) )
 })
+</script>
+<script>
+
+	// if CSS transforms aren't supported, don't show the 'fork me' button.
+	// Quick and dirty detect
+	style = document.createElement( 'div' ).style;
+
+	if ( style.transform !== undefined ) {
+		document.body.className += 'transforms-enabled';
+	} else {
+		[ 'webkit', 'moz', 'ms', 'o' ].forEach( function ( vendor ) {
+			if ( style[ vendor + 'Transform' ] !== undefined ) {
+				document.body.className += 'transforms-enabled';
+			}
+		});
+	}
 </script>
 </body>

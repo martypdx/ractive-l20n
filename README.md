@@ -45,7 +45,7 @@ new strings.
 ## editing the dictionary ##
 
 Because the dictionary is _just_ JSON, idea is that editor could 
-be built for making translations. `index.html` is sample web page
+be built for making translations. `index.html` is a crude sample web page
 for editing the dictionary and seeing live changes. 
 
 There is an issue iterating on keypath-like
@@ -69,3 +69,10 @@ will render as "bonjourjean".
 
 One possiblity would be to parse leading and trailing whitespace and
 store seperate from the editing value.
+
+## test ##
+Test cases can be added to `test/120n.test.js`. Test are run with:
+
+```sh
+$ mocha test
+```

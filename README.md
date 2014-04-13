@@ -1,10 +1,9 @@
-====
 Ractive l20n
 ====
 
 Experiment in localizing compiled Ractive templates.
 
-```
+```js
 var ractive = require('ractive'),
 	template = '<p><span>hello</span> {{world}}</p>',
 	parsed = ractive.parse(template)
@@ -33,7 +32,15 @@ Currently not yet packaged for npm, require the
 
 `ractive-l20n.js` is browserified version that includes Ractive.
 
-## Editing the dictionary ##
+### `.index(parsed)` ###
+Index the strings in a Ractive template that has been compiled 
+with `ractive.parse()`, returning a dictionary.
+
+### `.translate(parsed, dictionary)` ###
+Returns a new version of the compiled Ractive template with the
+new strings.
+
+## editing the dictionary ##
 
 Because the dictionary is _just_ JSON, idea is that editor could 
 be built for making translations. `index.html` is sample web page
@@ -46,10 +53,14 @@ to individual fields.
 ## whitespace ##
 
 Currently pure whitespace nodes are returned as well. These could be
-filtered out. One thing to bear in mind is that whitespace around text
+filtered out.
+
+One thing to bear in mind is that whitespace around text
 is significant:
 
-```<p>hello {{name}}</p>```
+```html
+<p>hello {{name}}</p>
+```
 
 If we change the dictionary entry `"hello "` to "bonjour", template 
 will render as "bonjourjean".
